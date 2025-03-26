@@ -1,4 +1,3 @@
-import os
 from sqlmodel import create_engine, Session
 from src.config import Config
 
