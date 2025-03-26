@@ -8,3 +8,4 @@ class Transaction(SQLModel, table=True):
     to_address: str
     amount: float
     timestamp: str
+    tx_hash: str = Field(unique=True)

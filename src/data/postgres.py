@@ -1,7 +1,9 @@
+import os
 from sqlmodel import create_engine, Session
+from src.config import Config
 
-DATABASE_URL = "postgresql://postgres:password@localhost:5432/mydatabase"
-engine = create_engine(DATABASE_URL, echo=True)
+config = Config()
+engine = create_engine(config.DATABASE_URL, echo=True)
 
 def get_session():
     with Session(engine) as session:

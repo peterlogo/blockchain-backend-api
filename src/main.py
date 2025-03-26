@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .data.setup_db import initialize_db
-from .routes import root
+from .routes import root, transactions
 
 @asynccontextmanager
 async def startup_event(app: FastAPI):
@@ -14,3 +14,4 @@ app = FastAPI(lifespan=startup_event)
 
 
 app.include_router(root.router)
+app.include_router(transactions.router)
