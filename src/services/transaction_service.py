@@ -5,8 +5,8 @@ class TransactionService:
     def __init__(self, transaction_dao: TransactionDAO):
         self.transaction_dao = transaction_dao
     
-    async def get_all_transactions(self) -> list[Transaction]:
-        return await self.transaction_dao.get_all_transactions()
+    def get_all_transactions(self) -> list[Transaction]:
+        return self.transaction_dao.get_all_transactions()
     
-    async def get_transaction_by_tx_hash(self, tx_hash: str) -> Transaction:
-        return await self.transaction_dao.get_transaction_by_tx_hash(tx_hash)
+    def get_transaction_by_tx_hash(self, tx_hash: str) -> Transaction:
+        return self.transaction_dao.get_transaction_by_tx_hash(tx_hash)
