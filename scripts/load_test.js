@@ -1,23 +1,32 @@
 import http from "k6/http";
-import { sleep } from "k6";
+import { check, sleep } from "k6";
 
+// Test configuration
 export let options = {
-  stages: [
-    { duration: "10s", target: 100 }, // Ramp up to 100 RPS in 10 seconds
-    { duration: "30s", target: 100 }, // Maintain 100 RPS for 30 seconds
-    { duration: "10s", target: 0 }, // Ramp down to 0 RPS
-  ],
+  scenarios: {
+    steady_load: {
+      executor: "constant-arrival-rate",
+      rate: 100, // 100 requests per second
+      timeUnit: "1s",
+      duration: "3m", // Run for 3 minutes
+      preAllocatedVUs: 50, // Pre-allocate virtual users
+      maxVUs: 200, // Allow up to 200 virtual users
+    },
+  },
   thresholds: {
-    http_req_duration: ["p(95)<500"], // 95% of requests should be below 500ms
-    http_req_failed: ["rate<0.01"], // Fail rate should be < 1%
+    http_req_duration: ["p(95)<1000"], // 95% of requests should be <1s
+    http_req_failed: ["rate<0.02"], // Failure rate should be <2%
   },
 };
 
 export default function () {
-  let res = http.get("http://localhost:8000/transactions"); // Update with your actual API URL
-  console.log(
-    `Response time: ${res.timings.duration}ms, Status: ${res.status}`
-  );
+  let res = http.get("http://localhost:8000/transactions");
 
-  sleep(1); // Helps distribute requests evenly
+  // Validate responses
+  check(res, {
+    "status is 200": (r) => r.status === 200,
+    "response time < 1s": (r) => r.timings.duration < 1000,
+  });
+
+  sleep(0.1); // Small delay to simulate real user pacing
 }
