@@ -152,15 +152,23 @@ We used k6 to test the `/transactions` endpoint under load.
 #### Running Load Test
 
 ```bash
-k6 run load_test.js
+k6 run scripts/load_test.js
 ```
 
-#### Sample Load Test Results
+#### Summary of Load Test Results
 
-```
-http_req_duration (p95) exceeded threshold: 59.99s
-http_req_failed exceeded threshold: 10.97%
-```
+The `/transactions` endpoint was tested under a simulated load, and the results indicate performance bottlenecks:
+
+- **95th percentile response time:** 59.99 seconds (far above the 1s target)
+- **Failure rate:** 52.73% of requests failed
+- **Average request duration:** 20.75 seconds, with some requests taking up to 60 seconds
+- **Throughput:** 1682 requests were processed at an average rate of 8 requests per second
+
+#### Key Takeaways
+
+- The response times are significantly high, indicating possible database bottlenecks or inefficient query handling.
+- More than half of the requests failed, suggesting issues with server resource allocation or timeout constraints.
+- Further optimizations are needed in caching, database queries, and server scaling to improve performance.
 
 For detailed load test results, refer to [LOAD_TEST_REPORT.md](LOAD_TEST_REPORT.md).
 
