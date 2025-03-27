@@ -1,4 +1,4 @@
 [project]
 name = "transactions-api"
-version = "0.1"
-dependencies = ["fastapi", 'sqlmodel', 'psycopg2', 'pytest']
+version = "0.0.1"
+dependencies = ["fastapi", 'sqlmodel', 'psycopg2', 'pytest', 'pytest-asyncio']

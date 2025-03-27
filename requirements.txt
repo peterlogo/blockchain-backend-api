@@ -1,0 +1,5 @@
+fastapi
+sqlmodel
+psycopg2  # If using PostgreSQL
+pytest
+pytest-asyncio
